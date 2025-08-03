@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using WebAppTesteTecnico.Server.Data;
+
 namespace WebAppTesteTecnico.Server
 {
     public class Program
@@ -7,10 +10,10 @@ namespace WebAppTesteTecnico.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
@@ -26,8 +29,13 @@ namespace WebAppTesteTecnico.Server
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+            }
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
