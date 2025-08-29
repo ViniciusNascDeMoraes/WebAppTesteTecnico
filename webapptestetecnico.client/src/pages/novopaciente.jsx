@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function NovoPaciente() {
-    const [paciente, setPaciente] = useState({ nome: "", telefone: "", sexo: "", email: "" });
+    const [paciente, setPaciente] = useState({ nome: "", telefone: "", sexo: "", email: "", nomeMae : "" });
     const navigate = useNavigate();
 
     const save = async () => {
@@ -53,6 +53,13 @@ export default function NovoPaciente() {
                 <input
                     value={paciente.email}
                     onChange={(e) => setPaciente({ ...paciente, email: e.target.value })}
+                />
+            </label>
+            <label>
+                Nome da Mãe
+                <input
+                    value={paciente.nomeMae}
+                    onChange={(e) => setPaciente({ ...paciente, nomeMae: e.target.value })}
                 />
             </label>
             <button type="button" onClick={() => save()}>

@@ -7,5 +7,6 @@
         public string Telefone { get; set; } = string.Empty;
         public string Sexo { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public string NomeMae { get; set; } = string.Empty;
     }
 }

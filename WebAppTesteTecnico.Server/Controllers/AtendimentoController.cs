@@ -15,6 +15,7 @@ namespace WebAppTesteTecnico.Server.Controllers
         public async Task<List<Atendimento>> AllAtendimentos()
         {
             return await Database.Atendimentos
+                .Where(atendimento => atendimento.Status == "Esperando Triagem")
                 .Include(atendimento => atendimento.Paciente)
                 .OrderBy(atendimento => atendimento.NumeroSequencial)
                 .ToListAsync();
@@ -23,8 +24,6 @@ namespace WebAppTesteTecnico.Server.Controllers
         [HttpPost]
         public async Task NewAtendimento(Atendimento atendimento)
         {
-            Console.WriteLine("ID DO PACIENTE É: " + atendimento.PacienteId);
-
             var proximoNumeroSequencial = 1;
 
             if (Database.Atendimentos.Any())

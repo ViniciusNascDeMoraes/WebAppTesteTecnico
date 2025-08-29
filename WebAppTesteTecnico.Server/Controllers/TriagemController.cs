@@ -14,13 +14,19 @@ namespace WebAppTesteTecnico.Server.Controllers
         [HttpGet]
         public async Task<List<Triagem>> AllTriagens()
         {
-            return await Database.Triagens.ToListAsync();
+            return await Database.Triagens
+                .Include(triagem => triagem.Atendimento)
+                .ToListAsync();
         }
 
         [HttpPost]
         public async Task NewTriagem(Triagem triagem)
         {
-            Database.Atendimentos.Remove(await Database.Atendimentos.FindAsync(triagem.AtendimentoId));
+            var atendimento = await Database.Atendimentos.FindAsync(triagem.AtendimentoId);
+
+            atendimento.Status = "Triagem Feita";
+
+            Database.Atendimentos.Update(atendimento);
 
             await Database.Triagens.AddAsync(triagem);
             await Database.SaveChangesAsync();

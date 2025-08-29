@@ -56,7 +56,7 @@ export default function Home() {
                             <td>
                                 {index === 0 && (
                                     <button type="button" onClick={() => navigate(`/novatriagem/${id}`)}>
-                                        Criar Atendimento
+                                        Criar Triagem
                                     </button>
                                 )}
                             </td>
